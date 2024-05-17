@@ -12,10 +12,10 @@ const AffichageData = () => {
     }, []);
 
     return (
-        <div>
+        <div className="bg-gray-200 flex flex-col">
             {error && <p>Error: {error.message}</p>}
             <h1>Users</h1>
-            <ul>
+            <ul className="flex flex-col">
                 {users.map(user => (
                     <li key={user.id}>
                         {user.name} - {user.email}
