@@ -1,11 +1,9 @@
-import AffichageData from "../components/AffichageData";
-import Form from "../components/Formtest"
+import Accueil from "../components/Accueil";
 
 const Home = () => {
     return (
         <div>
-            <Form />
-            <AffichageData />
+            <Accueil />
         </div>
     );
 }
