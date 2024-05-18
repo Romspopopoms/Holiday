@@ -8,7 +8,7 @@ const pool = new Pool({
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const { rows } = await pool.query('SELECT * FROM users');
+      const { rows } = await pool.query('SELECT * FROM "user"');
       res.status(200).json(rows);
     } catch (error) {
       console.error('Error fetching data:', error);
