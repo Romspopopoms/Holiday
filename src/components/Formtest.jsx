@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Form = () => {
     const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
@@ -20,7 +21,7 @@ const Form = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password, phone, address, postal_code: postalCode, city }),
+                body: JSON.stringify({ name, surname, email, password, phone, address, postal_code: postalCode, city }),
             });
 
             if (response.ok) {
@@ -30,6 +31,7 @@ const Form = () => {
                 // Reset form and state after logging the values
                 e.target.reset();
                 setName("");
+                setSurname("");
                 setEmail("");
                 setPassword("");
                 setPhone("");
@@ -62,6 +64,10 @@ const Form = () => {
                 <label className="flex flex-col items-center justify-center gap-y-2">
                     Name:
                     <input type="text" name="name" onChange={(e) => setName(e.target.value)} />
+                </label>
+                <label className="flex flex-col items-center justify-center gap-y-2">
+                    Name:
+                    <input type="text" name="surname" onChange={(e) => setSurname(e.target.value)} />
                 </label>
                 <label className="flex flex-col items-center justify-center gap-y-2">
                     Email:
