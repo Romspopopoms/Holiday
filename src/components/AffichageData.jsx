@@ -18,8 +18,8 @@ const AffichageData = () => {
             <table className="table-auto bg-white shadow-md rounded-lg w-3/4">
                 <thead className="bg-purple-400 text-white">
                     <tr>
+                    <th className="px-4 py-2 text-center">Prénom</th>
                         <th className="px-4 py-2 text-center">Nom</th>
-                        <th className="px-4 py-2 text-center">Prénom</th>
                         <th className="px-4 py-2 text-center">Email</th>
                         <th className="px-4 py-2 text-center">Téléphone</th>
                         <th className="px-4 py-2 text-center">Adresse</th>
