@@ -36,46 +36,48 @@ const AffichageData = () => {
             {error && <p className="text-red-500">Error: {error.message}</p>}
             <h1 className="text-center font-extrabold text-2xl text-purple-400 mb-4">Inscriptions</h1>
             <Filter cities={cities} onFilterChange={handleFilterChange} />
-            <table className="table-auto bg-white shadow-md rounded-lg w-3/4">
-                <thead className="bg-purple-400 text-white">
-                    <tr>
-                        <th className="px-4 py-2 text-center">Nom de l'enfant</th>
-                        <th className="px-4 py-2 text-center">Prénom de l'enfant</th>
-                        <th className="px-4 py-2 text-center">Date de naissance</th>
-                        <th className="px-4 py-2 text-center">Nom du parent</th>
-                        <th className="px-4 py-2 text-center">Prénom du parent</th>
-                        <th className="px-4 py-2 text-center">Email</th>
-                        <th className="px-4 py-2 text-center">Téléphone</th>
-                        <th className="px-4 py-2 text-center">Adresse</th>
-                        <th className="px-4 py-2 text-center">Code Postal</th>
-                        <th className="px-4 py-2 text-center">Ville</th>
-                        <th className="px-4 py-2 text-center">Contact d'urgence</th>
-                        <th className="px-4 py-2 text-center">Téléphone d'urgence</th>
-                        <th className="px-4 py-2 text-center">Infos médicales</th>
-                        <th className="px-4 py-2 text-center">Autorisations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredUsers.map(user => (
-                        <tr key={user.id} className="text-center">
-                            <td className="border px-4 py-2 text-center">{user.child_name}</td>
-                            <td className="border px-4 py-2 text-center">{user.child_surname}</td>
-                            <td className="border px-4 py-2 text-center">{user.dob}</td>
-                            <td className="border px-4 py-2 text-center">{user.parent_name}</td>
-                            <td className="border px-4 py-2 text-center">{user.parent_surname}</td>
-                            <td className="border px-4 py-2 text-center">{user.email}</td>
-                            <td className="border px-4 py-2 text-center">{user.phone}</td>
-                            <td className="border px-4 py-2 text-center">{user.address}</td>
-                            <td className="border px-4 py-2 text-center">{user.postal_code}</td>
-                            <td className="border px-4 py-2 text-center">{user.city}</td>
-                            <td className="border px-4 py-2 text-center">{user.emergency_contact}</td>
-                            <td className="border px-4 py-2 text-center">{user.emergency_phone}</td>
-                            <td className="border px-4 py-2 text-center">{user.medical_info}</td>
-                            <td className="border px-4 py-2 text-center">{JSON.stringify(user.authorizations)}</td>
+            <div className="overflow-x-auto w-full">
+                <table className="table-auto bg-white shadow-md rounded-lg w-full max-w-4xl">
+                    <thead className="bg-purple-400 text-white">
+                        <tr>
+                            <th className="px-4 py-2 text-center">Nom de l'enfant</th>
+                            <th className="px-4 py-2 text-center">Prénom de l'enfant</th>
+                            <th className="px-4 py-2 text-center">Date de naissance</th>
+                            <th className="px-4 py-2 text-center">Nom du parent</th>
+                            <th className="px-4 py-2 text-center">Prénom du parent</th>
+                            <th className="px-4 py-2 text-center">Email</th>
+                            <th className="px-4 py-2 text-center">Téléphone</th>
+                            <th className="px-4 py-2 text-center">Adresse</th>
+                            <th className="px-4 py-2 text-center">Code Postal</th>
+                            <th className="px-4 py-2 text-center">Ville</th>
+                            <th className="px-4 py-2 text-center">Contact d'urgence</th>
+                            <th className="px-4 py-2 text-center">Téléphone d'urgence</th>
+                            <th className="px-4 py-2 text-center">Infos médicales</th>
+                            <th className="px-4 py-2 text-center">Autorisations</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredUsers.map(user => (
+                            <tr key={user.id} className="text-center">
+                                <td className="border px-4 py-2">{user.child_name}</td>
+                                <td className="border px-4 py-2">{user.child_surname}</td>
+                                <td className="border px-4 py-2">{user.dob}</td>
+                                <td className="border px-4 py-2">{user.parent_name}</td>
+                                <td className="border px-4 py-2">{user.parent_surname}</td>
+                                <td className="border px-4 py-2">{user.email}</td>
+                                <td className="border px-4 py-2">{user.phone}</td>
+                                <td className="border px-4 py-2">{user.address}</td>
+                                <td className="border px-4 py-2">{user.postal_code}</td>
+                                <td className="border px-4 py-2">{user.city}</td>
+                                <td className="border px-4 py-2">{user.emergency_contact}</td>
+                                <td className="border px-4 py-2">{user.emergency_phone}</td>
+                                <td className="border px-4 py-2">{user.medical_info}</td>
+                                <td className="border px-4 py-2">{JSON.stringify(user.authorizations)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
