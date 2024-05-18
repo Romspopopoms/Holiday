@@ -8,7 +8,7 @@ const AffichageData = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("/api/patro")
+        fetch("/api/users")
             .then(response => response.json())
             .then(data => {
                 setUsers(data);
