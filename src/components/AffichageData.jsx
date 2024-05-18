@@ -5,7 +5,6 @@ const AffichageData = () => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [cities, setCities] = useState([]);
-    const [postalCodes, setPostalCodes] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -15,9 +14,7 @@ const AffichageData = () => {
                 setUsers(data);
                 setFilteredUsers(data);
                 const uniqueCities = [...new Set(data.map(user => user.city))];
-                const uniquePostalCodes = [...new Set(data.map(user => user.postal_code))];
                 setCities(uniqueCities);
-                setPostalCodes(uniquePostalCodes);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
@@ -34,17 +31,34 @@ const AffichageData = () => {
         setFilteredUsers(filtered);
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    const formatAuthorizations = (authorizations) => {
+        return (
+            <ul>
+                {Object.entries(authorizations).map(([key, value]) => (
+                    <li key={key}>
+                        {key}: {value ? "Oui" : "Non"}
+                    </li>
+                ))}
+            </ul>
+        );
+    };
+
     return (
         <div className="bg-gray-200 flex flex-col items-center py-4">
             {error && <p className="text-red-500">Error: {error.message}</p>}
             <h1 className="text-center font-extrabold text-2xl text-purple-400 mb-4">Inscriptions</h1>
-            <Filter cities={cities} postalCodes={postalCodes} onFilterChange={handleFilterChange} />
+            <Filter cities={cities} onFilterChange={handleFilterChange} />
             <div className="overflow-x-auto w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
                     {filteredUsers.map(user => (
                         <div key={user.id} className="bg-white p-4 rounded-lg shadow-md">
                             <h2 className="font-bold text-xl mb-2">{user.child_name} {user.child_surname}</h2>
-                            <p><strong>Date de naissance:</strong> {user.dob}</p>
+                            <p><strong>Date de naissance:</strong> {formatDate(user.dob)}</p>
                             <p><strong>Nom du parent:</strong> {user.parent_name}</p>
                             <p><strong>Prénom du parent:</strong> {user.parent_surname}</p>
                             <p><strong>Email:</strong> {user.email}</p>
@@ -55,7 +69,7 @@ const AffichageData = () => {
                             <p><strong>Contact d'urgence:</strong> {user.emergency_contact}</p>
                             <p><strong>Téléphone d'urgence:</strong> {user.emergency_phone}</p>
                             <p><strong>Infos médicales:</strong> {user.medical_info}</p>
-                            <p><strong>Autorisations:</strong> {JSON.stringify(user.authorizations)}</p>
+                            <p><strong>Autorisations:</strong> {formatAuthorizations(user.authorizations)}</p>
                         </div>
                     ))}
                 </div>
