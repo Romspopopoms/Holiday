@@ -7,13 +7,25 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { childName, childSurname, dob, parentName, parentSurname, email, phone, address, postal_code, city,
-            emergencyContact, emergencyPhone, medicalInfo, authorizations } = req.body;
+    const {
+      childName, childSurname, dob, parentName, parentSurname,
+      email, phone, address, postal_code, city,
+      emergencyContact, emergencyPhone, medicalInfo, authorizations
+    } = req.body;
 
     try {
       const { rows } = await pool.query(
-        'INSERT INTO patro (child_name, child_surname, dob, parent_name, parent_surname, email, phone, address, postal_code, city, emergency_contact, emergency_phone, medical_info, authorizations) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
-        [childName, childSurname, dob, parentName, parentSurname, email, phone, address, postal_code, city, emergencyContact, emergencyPhone, medicalInfo, authorizations]
+        `INSERT INTO users (
+          child_name, child_surname, dob, parent_name, parent_surname, email, phone, address, postal_code, city,
+          emergency_contact, emergency_phone, medical_info, authorizations
+        ) VALUES (
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+          $11, $12, $13, $14
+        ) RETURNING *`,
+        [
+          childName, childSurname, dob, parentName, parentSurname, email, phone, address, postal_code, city,
+          emergencyContact, emergencyPhone, medicalInfo, authorizations
+        ]
       );
 
       res.status(200).json({ message: 'User added successfully', user: rows[0] });
