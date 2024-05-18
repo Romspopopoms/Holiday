@@ -5,6 +5,7 @@ const AffichageData = () => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [cities, setCities] = useState([]);
+    const [postalCodes, setPostalCodes] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -14,7 +15,9 @@ const AffichageData = () => {
                 setUsers(data);
                 setFilteredUsers(data);
                 const uniqueCities = [...new Set(data.map(user => user.city))];
+                const uniquePostalCodes = [...new Set(data.map(user => user.postal_code))];
                 setCities(uniqueCities);
+                setPostalCodes(uniquePostalCodes);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
@@ -35,48 +38,27 @@ const AffichageData = () => {
         <div className="bg-gray-200 flex flex-col items-center py-4">
             {error && <p className="text-red-500">Error: {error.message}</p>}
             <h1 className="text-center font-extrabold text-2xl text-purple-400 mb-4">Inscriptions</h1>
-            <Filter cities={cities} onFilterChange={handleFilterChange} />
+            <Filter cities={cities} postalCodes={postalCodes} onFilterChange={handleFilterChange} />
             <div className="overflow-x-auto w-full">
-                <table className="table-auto bg-white shadow-md rounded-lg w-full max-w-4xl">
-                    <thead className="bg-purple-400 text-white">
-                        <tr>
-                            <th className="px-4 py-2 text-center">Nom de l'enfant</th>
-                            <th className="px-4 py-2 text-center">Prénom de l'enfant</th>
-                            <th className="px-4 py-2 text-center">Date de naissance</th>
-                            <th className="px-4 py-2 text-center">Nom du parent</th>
-                            <th className="px-4 py-2 text-center">Prénom du parent</th>
-                            <th className="px-4 py-2 text-center">Email</th>
-                            <th className="px-4 py-2 text-center">Téléphone</th>
-                            <th className="px-4 py-2 text-center">Adresse</th>
-                            <th className="px-4 py-2 text-center">Code Postal</th>
-                            <th className="px-4 py-2 text-center">Ville</th>
-                            <th className="px-4 py-2 text-center">Contact d'urgence</th>
-                            <th className="px-4 py-2 text-center">Téléphone d'urgence</th>
-                            <th className="px-4 py-2 text-center">Infos médicales</th>
-                            <th className="px-4 py-2 text-center">Autorisations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.map(user => (
-                            <tr key={user.id} className="text-center">
-                                <td className="border px-4 py-2">{user.child_name}</td>
-                                <td className="border px-4 py-2">{user.child_surname}</td>
-                                <td className="border px-4 py-2">{user.dob}</td>
-                                <td className="border px-4 py-2">{user.parent_name}</td>
-                                <td className="border px-4 py-2">{user.parent_surname}</td>
-                                <td className="border px-4 py-2">{user.email}</td>
-                                <td className="border px-4 py-2">{user.phone}</td>
-                                <td className="border px-4 py-2">{user.address}</td>
-                                <td className="border px-4 py-2">{user.postal_code}</td>
-                                <td className="border px-4 py-2">{user.city}</td>
-                                <td className="border px-4 py-2">{user.emergency_contact}</td>
-                                <td className="border px-4 py-2">{user.emergency_phone}</td>
-                                <td className="border px-4 py-2">{user.medical_info}</td>
-                                <td className="border px-4 py-2">{JSON.stringify(user.authorizations)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+                    {filteredUsers.map(user => (
+                        <div key={user.id} className="bg-white p-4 rounded-lg shadow-md">
+                            <h2 className="font-bold text-xl mb-2">{user.child_name} {user.child_surname}</h2>
+                            <p><strong>Date de naissance:</strong> {user.dob}</p>
+                            <p><strong>Nom du parent:</strong> {user.parent_name}</p>
+                            <p><strong>Prénom du parent:</strong> {user.parent_surname}</p>
+                            <p><strong>Email:</strong> {user.email}</p>
+                            <p><strong>Téléphone:</strong> {user.phone}</p>
+                            <p><strong>Adresse:</strong> {user.address}</p>
+                            <p><strong>Code Postal:</strong> {user.postal_code}</p>
+                            <p><strong>Ville:</strong> {user.city}</p>
+                            <p><strong>Contact d'urgence:</strong> {user.emergency_contact}</p>
+                            <p><strong>Téléphone d'urgence:</strong> {user.emergency_phone}</p>
+                            <p><strong>Infos médicales:</strong> {user.medical_info}</p>
+                            <p><strong>Autorisations:</strong> {JSON.stringify(user.authorizations)}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
