@@ -53,7 +53,7 @@ const AffichageData = () => {
             <div className="relative py-3 w-full max-w-6xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-300 to-blue-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-                    {error && <p className="text-red-500">Error: {error.message}</p>}
+                    {error && <p className="text-red-500 mb-4">Error: {error.message}</p>}
                     <h1 className="text-center font-extrabold text-3xl text-purple-600 mb-6">Inscriptions</h1>
                     <Filter cities={cities} onFilterChange={handleFilterChange} />
                     <div className="overflow-x-auto w-full mt-6">
@@ -61,22 +61,22 @@ const AffichageData = () => {
                             {filteredUsers.map(user => (
                                 <div key={user.id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
+                                        <div className="mb-4">
                                             <h2 className="font-bold text-2xl mb-2 text-purple-700">{user.child_name} {user.child_surname}</h2>
-                                            <p className="text-gray-700"><strong>Date de naissance:</strong> {formatDate(user.dob)}</p>
-                                            <p className="text-gray-700"><strong>Nom du parent:</strong> {user.parent_name}</p>
-                                            <p className="text-gray-700"><strong>Prénom du parent:</strong> {user.parent_surname}</p>
-                                            <p className="text-gray-700"><strong>Email:</strong> {user.email}</p>
-                                            <p className="text-gray-700"><strong>Téléphone:</strong> {user.phone}</p>
-                                            <p className="text-gray-700"><strong>Adresse:</strong> {user.address}</p>
-                                            <p className="text-gray-700"><strong>Code Postal:</strong> {user.postal_code}</p>
-                                            <p className="text-gray-700"><strong>Ville:</strong> {user.city}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Date de naissance:</strong> {formatDate(user.dob)}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Nom du parent:</strong> {user.parent_name}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Prénom du parent:</strong> {user.parent_surname}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Email:</strong> {user.email}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Téléphone:</strong> {user.phone}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Adresse:</strong> {user.address}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Code Postal:</strong> {user.postal_code}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Ville:</strong> {user.city}</p>
                                         </div>
-                                        <div>
-                                            <p className="text-gray-700"><strong>Contact d'urgence:</strong> {user.emergency_contact}</p>
-                                            <p className="text-gray-700"><strong>Téléphone d'urgence:</strong> {user.emergency_phone}</p>
-                                            <p className="text-gray-700"><strong>Infos médicales:</strong> {user.medical_info}</p>
-                                            <p className="text-gray-700"><strong>Autorisations:</strong> {formatAuthorizations(user.authorizations)}</p>
+                                        <div className="mb-4">
+                                            <p className="text-gray-700 mb-2"><strong>Contact d'urgence:</strong> {user.emergency_contact}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Téléphone d'urgence:</strong> {user.emergency_phone}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Infos médicales:</strong> {user.medical_info}</p>
+                                            <p className="text-gray-700 mb-2"><strong>Autorisations:</strong> {formatAuthorizations(user.authorizations)}</p>
                                         </div>
                                     </div>
                                 </div>
