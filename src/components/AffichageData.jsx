@@ -12,16 +12,27 @@ const AffichageData = () => {
     }, []);
 
     return (
-        <div className="bg-gray-200 flex flex-col">
-            {error && <p>Error: {error.message}</p>}
-            <h1 className="text-center font-extrabold text-3xl">Users</h1>
-            <ul className="flex flex-col justify-center items-center py-2">
-                {users.map(user => (
-                    <li key={user.id}>
-                        {user.name} - {user.email}
-                    </li>
-                ))}
-            </ul>
+        <div className="bg-gray-200 flex flex-col items-center py-4">
+            {error && <p className="text-red-500">Error: {error.message}</p>}
+            <h1 className="text-center font-extrabold text-2xl text-purple-400 mb-4">Users</h1>
+            <table className="table-auto bg-white shadow-md rounded-lg w-3/4">
+                <thead className="bg-purple-400 text-white">
+                    <tr>
+                        <th className="px-4 py-2">ID</th>
+                        <th className="px-4 py-2">Name</th>
+                        <th className="px-4 py-2">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user => (
+                        <tr key={user.id} className="text-center">
+                            <td className="border px-4 py-2">{user.id}</td>
+                            <td className="border px-4 py-2">{user.name}</td>
+                            <td className="border px-4 py-2">{user.email}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };
