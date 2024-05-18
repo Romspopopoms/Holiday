@@ -30,7 +30,6 @@ const AffichageData = () => {
                 <tbody>
                     {users.map(user => (
                         <tr key={user.id} className="text-center">
-                            
                             <td className="border px-4 py-2 text-center">{user.name}</td>
                             <td className="border px-4 py-2 text-center">{user.surname}</td>
                             <td className="border px-4 py-2 text-center">{user.email}</td>

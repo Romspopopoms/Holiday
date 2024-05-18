@@ -66,7 +66,7 @@ const Form = () => {
                     <input type="text" name="name" onChange={(e) => setName(e.target.value)} />
                 </label>
                 <label className="flex flex-col items-center justify-center gap-y-2">
-                    Name:
+                    Surname:
                     <input type="text" name="surname" onChange={(e) => setSurname(e.target.value)} />
                 </label>
                 <label className="flex flex-col items-center justify-center gap-y-2">

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     try {
       const { rows } = await pool.query(
-        'INSERT INTO "user" (name, surname email, password, phone, address, postal_code, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+        'INSERT INTO "user" (name, surname, email, password, phone, address, postal_code, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
         [name, surname, email, password, phone, address, postal_code, city]
       );
 
