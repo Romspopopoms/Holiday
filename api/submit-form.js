@@ -7,12 +7,12 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, address, postal_code, city } = req.body;
 
     try {
       const { rows } = await pool.query(
-        'INSERT INTO "user" (name, email, password) VALUES ($1, $2, $3) RETURNING *',
-        [name, email, password]
+        'INSERT INTO users (name, email, password, phone, address, postal_code, city) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [name, email, password, phone, address, postal_code, city]
       );
 
       res.status(200).json({ message: 'User added successfully', user: rows[0] });

@@ -4,6 +4,10 @@ const Form = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [city, setCity] = useState("");
     const [onSubmit, setOnSubmit] = useState(false);
     const [error, setError] = useState(null);
 
@@ -16,7 +20,7 @@ const Form = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ name, email, password, phone, address, postal_code: postalCode, city }),
             });
 
             if (response.ok) {
@@ -28,6 +32,10 @@ const Form = () => {
                 setName("");
                 setEmail("");
                 setPassword("");
+                setPhone("");
+                setAddress("");
+                setPostalCode("");
+                setCity("");
             } else {
                 const errorData = await response.json();
                 setError(errorData.message);
@@ -62,6 +70,22 @@ const Form = () => {
                 <label className="flex flex-col items-center justify-center gap-y-2">
                     Password:
                     <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+                </label>
+                <label className="flex flex-col items-center justify-center gap-y-2">
+                    Phone:
+                    <input type="text" name="phone" onChange={(e) => setPhone(e.target.value)} />
+                </label>
+                <label className="flex flex-col items-center justify-center gap-y-2">
+                    Address:
+                    <input type="text" name="address" onChange={(e) => setAddress(e.target.value)} />
+                </label>
+                <label className="flex flex-col items-center justify-center gap-y-2">
+                    Postal Code:
+                    <input type="text" name="postal_code" onChange={(e) => setPostalCode(e.target.value)} />
+                </label>
+                <label className="flex flex-col items-center justify-center gap-y-2">
+                    City:
+                    <input type="text" name="city" onChange={(e) => setCity(e.target.value)} />
                 </label>
                 <button type="submit" className="border-2 border-black bg-slate-200 px-6 py-2">Submit</button>
             </form>
