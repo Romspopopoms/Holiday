@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     try {
       const { rows } = await pool.query(
-        `INSERT INTO users (
+        `INSERT INTO patro (
           child_name, child_surname, dob, parent_name, parent_surname, email, phone, address, postal_code, city,
           emergency_contact, emergency_phone, medical_info, authorizations
         ) VALUES (
