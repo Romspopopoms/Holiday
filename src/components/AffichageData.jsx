@@ -51,15 +51,7 @@ const AffichageData = () => {
 
     const handleEditClick = (client) => {
         setEditingClient(client);
-        setFormValues({
-            nom: client.nom,
-            prenom: client.prenom,
-            telephone: client.telephone,
-            adresse: client.adresse,
-            type: client.type,
-            date_prise_en_charge: client.date_prise_en_charge,
-            statut: client.statut
-        });
+        setFormValues(client);
         setShowModal(true);
     };
 

@@ -36,6 +36,7 @@ const Form = () => {
                 const result = await response.json();
                 console.log("Submitted values:", result);
                 setOnSubmit(true);
+                e.target.reset();
                 setClientName("");
                 setClientSurname("");
                 setPhone("");
@@ -43,7 +44,6 @@ const Form = () => {
                 setClientType("autoentrepreneur");
                 setDate("");
                 setStatus("1er appel");
-                setError(null); // Clear any previous errors
             } else {
                 const errorData = await response.json();
                 setError(errorData.message);

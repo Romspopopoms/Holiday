@@ -1,4 +1,9 @@
-import { sql } from '@vercel/postgres';
+// pages/api/submit-form.js
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -6,16 +11,19 @@ export default async function handler(req, res) {
       clientName, clientSurname, phone, address, clientType, date, status
     } = req.body;
 
-    try {
-      const result = await sql`
-        INSERT INTO clients (
+    try { 
+      const { rows } = await pool.query(
+        `INSERT INTO clients (
           nom, prenom, telephone, adresse, type, date_prise_en_charge, statut
         ) VALUES (
-          ${clientName}, ${clientSurname}, ${phone}, ${address}, ${clientType}, ${date}, ${status}
-        ) RETURNING *;
-      `;
+          $1, $2, $3, $4, $5, $6, $7
+        ) RETURNING *`,
+        [
+          clientName, clientSurname, phone, address, clientType, date, status
+        ]
+      );
 
-      res.status(200).json({ message: 'Client added successfully', client: result.rows[0] });
+      res.status(200).json({ message: 'Client added successfully', client: rows[0] });
     } catch (error) {
       console.error('Error inserting data:', error);
       res.status(500).json({ message: 'Error inserting data', error });
