@@ -8,6 +8,13 @@ const Form = () => {
     const [clientType, setClientType] = useState("autoentrepreneur");
     const [date, setDate] = useState("");
     const [status, setStatus] = useState("1er appel");
+    const [statuses] = useState([
+        "1er appel",
+        "envoyé au design",
+        "envoyé en prod",
+        "produit fini et payé",
+        "produit fini et en attente de paiement"
+    ]);
     const [onSubmit, setOnSubmit] = useState(false);
     const [error, setError] = useState(null);
 
@@ -92,11 +99,11 @@ const Form = () => {
                 <label className="flex flex-col w-full">
                     Statut:
                     <select className="p-2 border rounded" value={status} onChange={(e) => setStatus(e.target.value)}>
-                        <option value="1er appel">1er appel</option>
-                        <option value="envoyé au design">Envoyé au design</option>
-                        <option value="envoyé en prod">Envoyé en prod</option>
-                        <option value="produit fini et payé">Produit fini et payé</option>
-                        <option value="produit fini et en attente de paiement">Produit fini et en attente de paiement</option>
+                        {statuses.map((stat, index) => (
+                            <option key={index} value={stat}>
+                                {stat}
+                            </option>
+                        ))}
                     </select>
                 </label>
                 <button type="submit" className="mt-6 border-2 border-black bg-purple-400 text-white px-6 py-2 rounded hover:bg-purple-500">Soumettre</button>
