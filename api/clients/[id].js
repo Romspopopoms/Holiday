@@ -1,9 +1,4 @@
-// pages/api/clients/[id].js
-import { Pool } from 'pg';
-
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-});
+import { sql } from '@vercel/postgres';
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -12,19 +7,18 @@ export default async function handler(req, res) {
     const { nom, prenom, telephone, adresse, type, date_prise_en_charge, statut } = req.body;
 
     try {
-      const { rows } = await pool.query(
-        `UPDATE clients
-         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7
-         WHERE id = $8
-         RETURNING *`,
-        [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, id]
-      );
+      const result = await sql`
+        UPDATE clients
+        SET nom = ${nom}, prenom = ${prenom}, telephone = ${telephone}, adresse = ${adresse}, type = ${type}, date_prise_en_charge = ${date_prise_en_charge}, statut = ${statut}
+        WHERE id = ${id}
+        RETURNING *;
+      `;
 
-      if (rows.length === 0) {
+      if (result.rowCount === 0) {
         return res.status(404).json({ message: 'Client not found' });
       }
 
-      res.status(200).json(rows[0]);
+      res.status(200).json(result.rows[0]);
     } catch (error) {
       console.error('Error updating client:', error);
       res.status(500).json({ message: 'Error updating client', error });

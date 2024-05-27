@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { sql } from '@vercel/postgres';
 
-const RecentUpdates = () => {
-    const [recentUpdates, setRecentUpdates] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        fetch("/api/recent-updates")
-            .then(response => response.json())
-            .then(data => setRecentUpdates(data))
-            .catch(error => {
-                console.error('Error fetching recent updates:', error);
-                setError(error);
-            });
-    }, []);
-
-    return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4">Dernières Modifications</h2>
-            {error && <p className="text-red-500">Erreur : {error.message}</p>}
-            <ul className="list-disc pl-5">
-                {recentUpdates.map((update, index) => (
-                    <li key={index} className="mb-2">
-                        <strong>{update.nom} {update.prenom}</strong> - {update.statut} (modifié le {new Date(update.updated_at).toLocaleDateString()})
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
-
-export default RecentUpdates;
+export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    try {
+      const result = await sql`SELECT * FROM clients ORDER BY updated_at DESC LIMIT 20;`;
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error('Error fetching recent updates:', error);
+      res.status(500).json({ message: 'Error fetching recent updates', error });
+    }
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
+}
