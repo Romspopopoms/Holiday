@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       clientName, clientSurname, phone, address, clientType, date, status
     } = req.body;
 
-    try {
+    try { 
       const { rows } = await pool.query(
         `INSERT INTO clients (
           nom, prenom, telephone, adresse, type, date_prise_en_charge, statut
