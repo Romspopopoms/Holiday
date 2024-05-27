@@ -17,6 +17,13 @@ const AffichageData = () => {
         date_prise_en_charge: '',
         statut: ''
     });
+    const [statuses] = useState([
+        "1er appel",
+        "envoyé au design",
+        "envoyé en prod",
+        "produit fini et payé",
+        "produit fini et en attente de paiement"
+    ]);
 
     useEffect(() => {
         fetch("/api/clients")
@@ -179,13 +186,16 @@ const AffichageData = () => {
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700">Type</label>
-                                <input
-                                    type="text"
+                                <select
                                     name="type"
                                     value={formValues.type}
                                     onChange={handleFormChange}
                                     className="w-full p-2 border rounded"
-                                />
+                                >
+                                    <option value="autoentrepreneur">Autoentrepreneur</option>
+                                    <option value="société">Société</option>
+                                    <option value="association">Association</option>
+                                </select>
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700">Date de prise en charge</label>
@@ -199,13 +209,18 @@ const AffichageData = () => {
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700">Statut</label>
-                                <input
-                                    type="text"
+                                <select
                                     name="statut"
                                     value={formValues.statut}
                                     onChange={handleFormChange}
                                     className="w-full p-2 border rounded"
-                                />
+                                >
+                                    {statuses.map((stat, index) => (
+                                        <option key={index} value={stat}>
+                                            {stat}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="flex justify-end">
                                 <button
