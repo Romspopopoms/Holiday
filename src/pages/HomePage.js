@@ -1,5 +1,5 @@
 import React from "react";
-import RecentUpdates from "./RecentUpdates";
+import RecentUpdates from "../components/RecentUpdates";
 
 const Accueil = () => {
     return (
