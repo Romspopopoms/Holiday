@@ -1,4 +1,3 @@
-// pages/api/submit-form.js
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -11,12 +10,12 @@ export default async function handler(req, res) {
       clientName, clientSurname, phone, address, clientType, date, status
     } = req.body;
 
-    try { 
+    try {
       const { rows } = await pool.query(
         `INSERT INTO clients (
-          nom, prenom, telephone, adresse, type, date_prise_en_charge, statut
+          nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, updated_at
         ) VALUES (
-          $1, $2, $3, $4, $5, $6, $7
+          $1, $2, $3, $4, $5, $6, $7, NOW()
         ) RETURNING *`,
         [
           clientName, clientSurname, phone, address, clientType, date, status

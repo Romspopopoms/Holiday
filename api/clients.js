@@ -1,4 +1,3 @@
-// pages/api/clients.js
 import { Pool } from 'pg';
 
 const pool = new Pool({

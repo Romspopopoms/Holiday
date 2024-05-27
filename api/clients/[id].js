@@ -1,4 +1,3 @@
-// pages/api/clients/[id].js
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -14,7 +13,7 @@ export default async function handler(req, res) {
     try {
       const { rows } = await pool.query(
         `UPDATE clients
-         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7
+         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7, updated_at = NOW()
          WHERE id = $8
          RETURNING *`,
         [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, id]
