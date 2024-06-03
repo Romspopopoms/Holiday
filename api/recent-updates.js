@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const { rows } = await pool.query('SELECT * FROM clients ORDER BY updated_at DESC LIMIT 20');
+      console.log("Fetched recent updates:", rows);
       res.status(200).json(rows);
     } catch (error) {
       console.error('Error fetching recent updates:', error);

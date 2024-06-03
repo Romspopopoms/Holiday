@@ -10,6 +10,8 @@ export default async function handler(req, res) {
   if (req.method === 'PUT') {
     const { nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis } = req.body;
 
+    console.log("Request body data:", req.body);
+
     try {
       const { rows } = await pool.query(
         `UPDATE clients
@@ -18,6 +20,8 @@ export default async function handler(req, res) {
          RETURNING *`,
         [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis, id]
       );
+
+      console.log("Updated client data from database:", rows[0]);
 
       if (rows.length === 0) {
         return res.status(404).json({ message: 'Client not found' });
