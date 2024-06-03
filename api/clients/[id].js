@@ -10,33 +10,13 @@ export default async function handler(req, res) {
   if (req.method === 'PUT') {
     const { nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis } = req.body;
 
-    console.log("Request body data:", req.body);
-
     try {
       // Récupérer les données actuelles du client
-      const currentResult = await pool.query('SELECT * FROM clients WHERE id = $1', [id]);
-      const currentData = currentResult.rows[0];
-
-      if (!currentData) {
+      const { rows: currentDataRows } = await pool.query('SELECT * FROM clients WHERE id = $1', [id]);
+      if (currentDataRows.length === 0) {
         return res.status(404).json({ message: 'Client not found' });
       }
-
-      // Mise à jour de la table clients
-      const updateResult = await pool.query(
-        `UPDATE clients
-         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7, etatdevis = $8, updated_at = NOW()
-         WHERE id = $9
-         RETURNING *`,
-        [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis, id]
-      );
-
-      const updatedClient = updateResult.rows[0];
-
-      console.log("Updated client data from database:", updatedClient);
-
-      if (!updatedClient) {
-        return res.status(404).json({ message: 'Client not found' });
-      }
+      const currentData = currentDataRows[0];
 
       // Enregistrer uniquement les modifications réelles
       const fields = [
@@ -52,18 +32,27 @@ export default async function handler(req, res) {
 
       const modificationPromises = fields.map(field => {
         if (field.oldValue !== field.newValue) {
-          const description = field.newValue; // Juste la nouvelle valeur
+          const description = `${field.name} modifié de "${field.oldValue}" à "${field.newValue}"`;
           return pool.query(
-            `INSERT INTO modifications (client_id, nom, prenom, field_modified, modification_description, updated_at)
-             VALUES ($1, $2, $3, $4, $5, NOW())`,
-            [id, nom, prenom, field.name, description]
+            `INSERT INTO client_modifications (client_id, description, modified_at) VALUES ($1, $2, NOW())`,
+            [id, description]
           );
         }
-      }).filter(Boolean); // Filtrer les undefined pour les champs non modifiés
+        return null;
+      }).filter(promise => promise !== null);
 
       await Promise.all(modificationPromises);
 
-      res.status(200).json(updatedClient);
+      // Mettre à jour les données du client
+      const { rows } = await pool.query(
+        `UPDATE clients
+         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7, etatdevis = $8, updated_at = NOW()
+         WHERE id = $9
+         RETURNING *`,
+        [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis, id]
+      );
+
+      res.status(200).json(rows[0]);
     } catch (error) {
       console.error('Error updating client:', error);
       res.status(500).json({ message: 'Error updating client', error });

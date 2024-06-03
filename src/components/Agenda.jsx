@@ -9,7 +9,7 @@ const Agenda = ({ clientId }) => {
   const [editingWorkHour, setEditingWorkHour] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/work-hours?clientId=${clientId}`)
+    fetch(`/api/work-hours/by-client/${clientId}`)
       .then(response => response.json())
       .then(data => setWorkHours(data))
       .catch(error => console.error('Error fetching work hours:', error));
@@ -50,6 +50,7 @@ const Agenda = ({ clientId }) => {
 
   const handleEdit = (workHour) => {
     setEditingWorkHour(workHour);
+    setEmployeeName(workHour.employee_name);
     setHoursWorked(workHour.hours_worked);
     setWorkDate(workHour.work_date);
   };
@@ -76,6 +77,7 @@ const Agenda = ({ clientId }) => {
         setEditingWorkHour(null);
         setHoursWorked('');
         setWorkDate('');
+        setEmployeeName('Geoffrey');
       } else {
         const errorData = await response.json();
         setMessage(`Erreur: ${errorData.message}`);
