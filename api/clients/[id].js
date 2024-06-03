@@ -13,6 +13,14 @@ export default async function handler(req, res) {
     console.log("Request body data:", req.body);
 
     try {
+      // Récupérer les données actuelles du client
+      const currentResult = await pool.query('SELECT * FROM clients WHERE id = $1', [id]);
+      const currentData = currentResult.rows[0];
+
+      if (!currentData) {
+        return res.status(404).json({ message: 'Client not found' });
+      }
+
       // Mise à jour de la table clients
       const updateResult = await pool.query(
         `UPDATE clients
@@ -30,26 +38,28 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: 'Client not found' });
       }
 
-      // Enregistrer chaque modification individuelle
+      // Enregistrer uniquement les modifications
       const fields = [
-        { name: 'nom', value: nom },
-        { name: 'prenom', value: prenom },
-        { name: 'telephone', value: telephone },
-        { name: 'adresse', value: adresse },
-        { name: 'type', value: type },
-        { name: 'date_prise_en_charge', value: date_prise_en_charge },
-        { name: 'statut', value: statut },
-        { name: 'etatdevis', value: etatdevis }
+        { name: 'nom', oldValue: currentData.nom, newValue: nom },
+        { name: 'prenom', oldValue: currentData.prenom, newValue: prenom },
+        { name: 'telephone', oldValue: currentData.telephone, newValue: telephone },
+        { name: 'adresse', oldValue: currentData.adresse, newValue: adresse },
+        { name: 'type', oldValue: currentData.type, newValue: type },
+        { name: 'date_prise_en_charge', oldValue: currentData.date_prise_en_charge, newValue: date_prise_en_charge },
+        { name: 'statut', oldValue: currentData.statut, newValue: statut },
+        { name: 'etatdevis', oldValue: currentData.etatdevis, newValue: etatdevis }
       ];
 
       const modificationPromises = fields.map(field => {
-        const description = `${field.name} modifié à ${field.value}`;
-        return pool.query(
-          `INSERT INTO modifications (client_id, nom, prenom, field_modified, modification_description, updated_at)
-           VALUES ($1, $2, $3, $4, $5, NOW())`,
-          [id, nom, prenom, field.name, description]
-        );
-      });
+        if (field.oldValue !== field.newValue) {
+          const description = `${field.name} modifié à ${field.newValue}`;
+          return pool.query(
+            `INSERT INTO modifications (client_id, nom, prenom, field_modified, modification_description, updated_at)
+             VALUES ($1, $2, $3, $4, $5, NOW())`,
+            [id, nom, prenom, field.name, description]
+          );
+        }
+      }).filter(Boolean); // Filtrer les undefined pour les champs non modifiés
 
       await Promise.all(modificationPromises);
 
