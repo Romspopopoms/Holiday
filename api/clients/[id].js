@@ -8,15 +8,15 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method === 'PUT') {
-    const { nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatDevis } = req.body;
+    const { nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis } = req.body;
 
     try {
       const { rows } = await pool.query(
         `UPDATE clients
-         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7, etat_devis = $8, updated_at = NOW()
+         SET nom = $1, prenom = $2, telephone = $3, adresse = $4, type = $5, date_prise_en_charge = $6, statut = $7, etatdevis = $8, updated_at = NOW()
          WHERE id = $9
          RETURNING *`,
-        [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatDevis, id]
+        [nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etatdevis, id]
       );
 
       if (rows.length === 0) {
