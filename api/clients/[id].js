@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
       const modificationPromises = fields.map(field => {
         if (field.oldValue !== field.newValue) {
-          const description = `${field.name} modifié à ${field.newValue}`;
+          const description = field.newValue; // Juste la nouvelle valeur
           return pool.query(
             `INSERT INTO modifications (client_id, nom, prenom, field_modified, modification_description, updated_at)
              VALUES ($1, $2, $3, $4, $5, NOW())`,
