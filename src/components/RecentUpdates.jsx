@@ -25,7 +25,7 @@ const RecentUpdates = () => {
                 {recentUpdates.length > 0 ? (
                     recentUpdates.map((update, index) => (
                         <li key={index} className="mb-2">
-                            <span className="font-bold">{update.nom} {update.prenom}</span> - {update.field_modified} modifié à <span className="font-bold">{update.modification_description.split(' ')[2]}</span> (modifié le {new Date(update.updated_at).toLocaleDateString()})
+                            <span className="font-bold">{update.nom} {update.prenom}</span> - {update.field_modified} modifié à <span className="font-bold">{update.field_modified === 'date_prise_en_charge' ? new Date(update.modification_description.split(' ')[2]).toLocaleDateString() : update.modification_description.split(' ')[2]}</span> (modifié le {new Date(update.updated_at).toLocaleDateString()})
                         </li>
                     ))
                 ) : (
