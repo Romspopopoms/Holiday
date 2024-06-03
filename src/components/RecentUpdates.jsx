@@ -25,7 +25,7 @@ const RecentUpdates = () => {
                 {recentUpdates.length > 0 ? (
                     recentUpdates.map((update, index) => (
                         <li key={index} className="mb-2">
-                            <strong>{update.nom} {update.prenom}</strong> - {update.statut} (modifié le {new Date(update.updated_at).toLocaleDateString()}) - État du devis : {update.etatdevis ? update.etatdevis : 'N/A'}
+                            <strong>{update.nom} {update.prenom}</strong> - {update.modification_description} (modifié le {new Date(update.updated_at).toLocaleDateString()})
                         </li>
                     ))
                 ) : (
