@@ -16,7 +16,7 @@ const AffichageData = () => {
         type: '',
         date_prise_en_charge: '',
         statut: '',
-        etatDevis: 'a_faire' // Valeur par défaut pour etatDevis
+        etatdevis: 'a_faire' // Valeur par défaut pour etatDevis
     });
     const [statuses] = useState([
         "1er appel",
@@ -25,7 +25,7 @@ const AffichageData = () => {
         "produit fini et payé",
         "produit fini et en attente de paiement"
     ]);
-    const [etatDevisOptions] = useState([
+    const [etatdevisOptions] = useState([
         "Devis à faire",
         "Devis envoyé",
         "Devis validé"
@@ -233,11 +233,11 @@ const AffichageData = () => {
                                 <label className="block text-gray-700">État du devis</label>
                                 <select
                                     name="etatDevis"
-                                    value={formValues.etatDevis}
+                                    value={formValues.etatdevis}
                                     onChange={handleFormChange}
                                     className="w-full p-2 border rounded"
                                 >
-                                    {etatDevisOptions.map((option, index) => (
+                                    {etatdevisOptions.map((option, index) => (
                                         <option key={index} value={option.toLowerCase().replace(/\s+/g, '_')}>
                                             {option}
                                         </option>
