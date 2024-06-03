@@ -7,18 +7,18 @@ const pool = new Pool({
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const {
-      clientName, clientSurname, phone, address, clientType, date, status
+      clientName, clientSurname, phone, address, clientType, date, status, etatDevis
     } = req.body;
 
     try {
       const { rows } = await pool.query(
         `INSERT INTO clients (
-          nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, updated_at
+          nom, prenom, telephone, adresse, type, date_prise_en_charge, statut, etat_devis, updated_at
         ) VALUES (
-          $1, $2, $3, $4, $5, $6, $7, NOW()
+          $1, $2, $3, $4, $5, $6, $7, $8, NOW()
         ) RETURNING *`,
         [
-          clientName, clientSurname, phone, address, clientType, date, status
+          clientName, clientSurname, phone, address, clientType, date, status, etatDevis
         ]
       );
 

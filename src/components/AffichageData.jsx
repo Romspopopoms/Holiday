@@ -15,7 +15,8 @@ const AffichageData = () => {
         adresse: '',
         type: '',
         date_prise_en_charge: '',
-        statut: ''
+        statut: '',
+        etatDevis: 'a_faire' // Valeur par défaut pour etatDevis
     });
     const [statuses] = useState([
         "1er appel",
@@ -23,6 +24,11 @@ const AffichageData = () => {
         "envoyé en prod",
         "produit fini et payé",
         "produit fini et en attente de paiement"
+    ]);
+    const [etatDevisOptions] = useState([
+        "Devis à faire",
+        "Devis envoyé",
+        "Devis validé"
     ]);
 
     useEffect(() => {
@@ -124,6 +130,7 @@ const AffichageData = () => {
                                             <p className="text-gray-700 mb-2"><strong>Type:</strong> {client.type}</p>
                                             <p className="text-gray-700 mb-2"><strong>Date de prise en charge:</strong> {formatDate(client.date_prise_en_charge)}</p>
                                             <p className="text-gray-700 mb-2"><strong>Statut:</strong> {client.statut}</p>
+                                            <p className="text-gray-700 mb-2"><strong>État du devis:</strong> {client.etat_devis}</p>
                                             <button 
                                                 onClick={() => handleEditClick(client)} 
                                                 className="mt-2 border-2 border-purple-600 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500"
@@ -218,6 +225,21 @@ const AffichageData = () => {
                                     {statuses.map((stat, index) => (
                                         <option key={index} value={stat}>
                                             {stat}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">État du devis</label>
+                                <select
+                                    name="etatDevis"
+                                    value={formValues.etatDevis}
+                                    onChange={handleFormChange}
+                                    className="w-full p-2 border rounded"
+                                >
+                                    {etatDevisOptions.map((option, index) => (
+                                        <option key={index} value={option.toLowerCase().replace(/\s+/g, '_')}>
+                                            {option}
                                         </option>
                                     ))}
                                 </select>

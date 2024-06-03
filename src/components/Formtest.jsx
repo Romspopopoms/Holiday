@@ -8,12 +8,18 @@ const Form = () => {
     const [clientType, setClientType] = useState("autoentrepreneur");
     const [date, setDate] = useState("");
     const [status, setStatus] = useState("1er appel");
+    const [etatDevis, setEtatDevis] = useState("a_faire");
     const [statuses] = useState([
         "1er appel",
         "envoyé au design",
         "envoyé en prod",
         "produit fini et payé",
         "produit fini et en attente de paiement"
+    ]);
+    const [etatDevisOptions] = useState([
+        "Devis à faire",
+        "Devis envoyé",
+        "Devis validé"
     ]);
     const [onSubmit, setOnSubmit] = useState(false);
     const [error, setError] = useState(null);
@@ -28,7 +34,7 @@ const Form = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    clientName, clientSurname, phone, address, clientType, date, status
+                    clientName, clientSurname, phone, address, clientType, date, status, etatDevis
                 }),
             });
 
@@ -44,6 +50,7 @@ const Form = () => {
                 setClientType("autoentrepreneur");
                 setDate("");
                 setStatus("1er appel");
+                setEtatDevis("a_faire");
             } else {
                 const errorData = await response.json();
                 setError(errorData.message);
@@ -102,6 +109,16 @@ const Form = () => {
                         {statuses.map((stat, index) => (
                             <option key={index} value={stat}>
                                 {stat}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <label className="flex flex-col w-full">
+                    État du devis:
+                    <select className="p-2 border rounded" value={etatDevis} onChange={(e) => setEtatDevis(e.target.value)}>
+                        {etatDevisOptions.map((option, index) => (
+                            <option key={index} value={option.toLowerCase().replace(/\s+/g, '_')}>
+                                {option}
                             </option>
                         ))}
                     </select>
