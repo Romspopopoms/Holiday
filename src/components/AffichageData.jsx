@@ -16,7 +16,7 @@ const AffichageData = () => {
         type: '',
         date_prise_en_charge: '',
         statut: '',
-        etatdevis: 'a_faire' // Valeur par défaut pour etatDevis
+        etatdevis: 'a_faire' // Valeur par défaut pour etatdevis
     });
     const [statuses] = useState([
         "1er appel",
@@ -25,7 +25,7 @@ const AffichageData = () => {
         "produit fini et payé",
         "produit fini et en attente de paiement"
     ]);
-    const [etatdevisOptions] = useState([
+    const [etatDevisOptions] = useState([
         "Devis à faire",
         "Devis envoyé",
         "Devis validé"
@@ -130,7 +130,7 @@ const AffichageData = () => {
                                             <p className="text-gray-700 mb-2"><strong>Type:</strong> {client.type}</p>
                                             <p className="text-gray-700 mb-2"><strong>Date de prise en charge:</strong> {formatDate(client.date_prise_en_charge)}</p>
                                             <p className="text-gray-700 mb-2"><strong>Statut:</strong> {client.statut}</p>
-                                            <p className="text-gray-700 mb-2"><strong>État du devis:</strong> {client.etat_devis}</p>
+                                            <p className="text-gray-700 mb-2"><strong>État du devis:</strong> {client.etatdevis}</p>
                                             <button 
                                                 onClick={() => handleEditClick(client)} 
                                                 className="mt-2 border-2 border-purple-600 bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500"
@@ -232,12 +232,12 @@ const AffichageData = () => {
                             <div className="mb-4">
                                 <label className="block text-gray-700">État du devis</label>
                                 <select
-                                    name="etatDevis"
+                                    name="etatdevis"
                                     value={formValues.etatdevis}
                                     onChange={handleFormChange}
                                     className="w-full p-2 border rounded"
                                 >
-                                    {etatdevisOptions.map((option, index) => (
+                                    {etatDevisOptions.map((option, index) => (
                                         <option key={index} value={option.toLowerCase().replace(/\s+/g, '_')}>
                                             {option}
                                         </option>
