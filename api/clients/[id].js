@@ -38,14 +38,14 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: 'Client not found' });
       }
 
-      // Enregistrer uniquement les modifications
+      // Enregistrer uniquement les modifications réelles
       const fields = [
         { name: 'nom', oldValue: currentData.nom, newValue: nom },
         { name: 'prenom', oldValue: currentData.prenom, newValue: prenom },
         { name: 'telephone', oldValue: currentData.telephone, newValue: telephone },
         { name: 'adresse', oldValue: currentData.adresse, newValue: adresse },
         { name: 'type', oldValue: currentData.type, newValue: type },
-        { name: 'date_prise_en_charge', oldValue: currentData.date_prise_en_charge, newValue: date_prise_en_charge },
+        { name: 'date_prise_en_charge', oldValue: currentData.date_prise_en_charge ? currentData.date_prise_en_charge.toISOString() : null, newValue: date_prise_en_charge },
         { name: 'statut', oldValue: currentData.statut, newValue: statut },
         { name: 'etatdevis', oldValue: currentData.etatdevis, newValue: etatdevis }
       ];
