@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Filter from "./Filter"; // Assurez-vous que le chemin est correct
+import Agenda from "./Agenda"; // Assurez-vous que le chemin est correct
 
 const AffichageData = () => {
     const [clients, setClients] = useState([]);
@@ -25,7 +26,7 @@ const AffichageData = () => {
         "produit fini et payé",
         "produit fini et en attente de paiement"
     ]);
-    const [etatDevisOptions] = useState([
+    const [etatdevisOptions] = useState([
         "Devis à faire",
         "Devis envoyé",
         "Devis validé"
@@ -35,6 +36,7 @@ const AffichageData = () => {
         fetch("/api/clients")
             .then(response => response.json())
             .then(data => {
+                console.log("Fetched clients data:", data);
                 setClients(data);
                 setFilteredClients(data);
                 const uniqueClientTypes = [...new Set(data.map(client => client.type))];
@@ -83,6 +85,7 @@ const AffichageData = () => {
 
             if (response.ok) {
                 const updatedClient = await response.json();
+                console.log("Updated client data from response:", updatedClient);
                 setClients((prevClients) =>
                     prevClients.map((client) =>
                         client.id === updatedClient.id ? updatedClient : client
@@ -138,6 +141,7 @@ const AffichageData = () => {
                                                 Modifier
                                             </button>
                                         </div>
+                                        <Agenda clientId={client.id} />
                                     </div>
                                 </div>
                             ))}
@@ -237,7 +241,7 @@ const AffichageData = () => {
                                     onChange={handleFormChange}
                                     className="w-full p-2 border rounded"
                                 >
-                                    {etatDevisOptions.map((option, index) => (
+                                    {etatdevisOptions.map((option, index) => (
                                         <option key={index} value={option.toLowerCase().replace(/\s+/g, '_')}>
                                             {option}
                                         </option>
