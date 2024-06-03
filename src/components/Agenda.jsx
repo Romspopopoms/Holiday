@@ -10,9 +10,23 @@ const Agenda = ({ clientId }) => {
 
   useEffect(() => {
     fetch(`/api/work-hours/by-client/${clientId}`)
-      .then(response => response.json())
-      .then(data => setWorkHours(data))
-      .catch(error => console.error('Error fetching work hours:', error));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setWorkHours(data);
+        } else {
+          setWorkHours([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching work hours:', error);
+        setMessage('Erreur lors de la récupération des heures de travail');
+      });
   }, [clientId]);
 
   const handleSubmit = async (e) => {
