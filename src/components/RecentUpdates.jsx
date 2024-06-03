@@ -21,11 +21,11 @@ const RecentUpdates = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Dernières Modifications</h2>
             {error && <p className="text-red-500">Erreur : {error.message}</p>}
-            <ul className="list-disc pl-5">
+            <ul className="list-none pl-0">
                 {recentUpdates.length > 0 ? (
                     recentUpdates.map((update, index) => (
                         <li key={index} className="mb-2">
-                            <strong>{update.nom} {update.prenom}</strong> - {update.modification_description} (modifié le {new Date(update.updated_at).toLocaleDateString()})
+                            <span className="font-bold">{update.nom} {update.prenom}</span> - {update.field_modified} modifié à <span className="font-bold">{update.modification_description.split(' ')[2]}</span> (modifié le {new Date(update.updated_at).toLocaleDateString()})
                         </li>
                     ))
                 ) : (
